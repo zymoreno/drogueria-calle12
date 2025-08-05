@@ -1,0 +1,16 @@
+# Ignora entornos virtuales y archivos temporales de Python
+backend/venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# Archivos de base de datos temporales
+*.db
+*.sqlite3
+
+# Archivos y carpetas ocultos de sistema
+.DS_Store
+.env
+
+# Otros archivos temporales
+*.log

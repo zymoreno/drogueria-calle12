@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Login | Droguería Calle 12</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css" rel="stylesheet" />
+  <style>
+    body { background: #f3f6fa; }
+    .login-card {
+      background: #fff;
+      max-width: 350px;
+      margin: 60px auto;
+      border-radius: 16px;
+      box-shadow: 0 8px 28px 0 rgba(32,156,255,0.13);
+      padding: 2.5rem 2rem;
+    }
+    .logo-img {
+      display: block;
+      margin: 0 auto 1.2em auto;
+      width: 90px;
+      border-radius: 18px;
+      box-shadow: 0 4px 14px 0 rgba(32,156,255,0.06);
+    }
+    .login-header {
+      font-size: 1.25rem;
+      font-weight: bold;
+      color: #2c3e50;
+      text-align: center;
+      margin-bottom: 1.3rem;
+      letter-spacing: .3px;
+    }
+    .login-btn {
+      --background: #1565c0;
+      font-weight: bold;
+      margin: 0.8rem 0 0.6rem 0;
+      font-size: 1.1em;
+    }
+    .login-link {
+      display: block;
+      text-align: center;
+      margin-top: 1em;
+      color: #1565c0;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    #mensaje { text-align:center; min-height:1.4em; margin-top:0.6em; font-size:1em;}
+  </style>
+</head>
+<body>
+  <div class="login-card">
+    
+    <img src="logo/drogueria.png" class="logo-img" alt="logo">
+    <div class="login-header">Droguería Calle 12</div>
+    <ion-item>
+      <ion-icon name="mail" slot="start"></ion-icon>
+      <ion-input id="correo" placeholder="Correo electrónico" type="email"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-icon name="lock-closed" slot="start"></ion-icon>
+      <ion-input id="clave" placeholder="Contraseña" type="password"></ion-input>
+    </ion-item>
+    <ion-button expand="block" class="login-btn" onclick="login()">Iniciar Sesión</ion-button>
+    <a class="login-link" href="#" onclick="mostrarRegistro()">¿No tienes cuenta? <b>Registrarse</b></a>
+    <div id="mensaje"></div>
+  </div>
+  <!-- Registro oculto -->
+  <div class="login-card" id="registro-card" style="display:none;">
+    <img src="logo/drogueria.png" class="logo-img" alt="logo">
+    <div class="login-header">Registro</div>
+    <ion-item>
+      <ion-icon name="mail" slot="start"></ion-icon>
+      <ion-input id="correo-reg" placeholder="Correo electrónico" type="email"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-icon name="lock-closed" slot="start"></ion-icon>
+      <ion-input id="clave-reg" placeholder="Contraseña" type="password"></ion-input>
+    </ion-item>
+    <ion-button expand="block" class="login-btn" onclick="registrar()">Registrarse</ion-button>
+    <a class="login-link" href="#" onclick="mostrarLogin()">&lt; Volver al Login</a>
+    <div id="mensaje-registro"></div>
+  </div>
+  <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
+  <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
+  <script>
+    function mostrarRegistro() {
+      document.querySelector('.login-card').style.display = 'none';
+      document.getElementById('registro-card').style.display = 'block';
+    }
+    function mostrarLogin() {
+      document.querySelector('.login-card').style.display = 'block';
+      document.getElementById('registro-card').style.display = 'none';
+    }
+    function mostrarMensaje(msg, area, color='red') {
+      document.getElementById(area).innerText = msg;
+      document.getElementById(area).style.color = color;
+    }
+    function limpiarCampos(tipo) {
+      if (tipo === 'login') {
+        document.getElementById('correo').value = '';
+        document.getElementById('clave').value = '';
+      } else {
+        document.getElementById('correo-reg').value = '';
+        document.getElementById('clave-reg').value = '';
+      }
+    }
+    function login() {
+      const correo = document.getElementById('correo').value;
+      const clave = document.getElementById('clave').value;
+      fetch('http://127.0.0.1:5000/login', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        credentials: 'include',
+        body: JSON.stringify({correo, clave})
+      })
+      .then(async r => {
+        let data = await r.json();
+        if(r.ok) {
+          limpiarCampos('login');
+          mostrarMensaje('', 'mensaje');
+          window.location.href = "dashboard.html"; // Redirige al dashboard
+        } else {
+          mostrarMensaje(data.mensaje, 'mensaje');
+        }
+      })
+      .catch(()=>mostrarMensaje('Error de conexión', 'mensaje'));
+    }
+    function registrar() {
+      const correo = document.getElementById('correo-reg').value;
+      const clave = document.getElementById('clave-reg').value;
+      fetch('http://127.0.0.1:5000/registro', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({correo, clave})
+      })
+      .then(async r => {
+        let data = await r.json();
+        if(r.ok) {
+          mostrarMensaje(data.mensaje, 'mensaje-registro', 'green');
+          limpiarCampos('registro');
+        } else {
+          mostrarMensaje(data.mensaje, 'mensaje-registro');
+        }
+      })
+      .catch(()=>mostrarMensaje('Error de conexión', 'mensaje-registro'));
+    }
+  </script>
+</body>
+</html>
