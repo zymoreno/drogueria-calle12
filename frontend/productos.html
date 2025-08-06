@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Gestión de Productos</title>
+  <script defer src="js/productos.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+
+    form {
+      margin-bottom: 20px;
+    }
+
+    input {
+      margin: 5px;
+    }
+
+    button {
+      margin-left: 5px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+  </style>
+</head>
+<body>
+  <h2>Gestión de Productos</h2>
+
+  <form id="form-producto">
+    <input type="hidden" id="producto-id">
+    <input type="text" id="nombre" placeholder="Nombre del producto" required>
+    <input type="number" id="precio" placeholder="Precio" step="0.01" required>
+    <input type="number" id="cantidad" placeholder="Cantidad" required>
+    <button type="submit">Guardar</button>
+  </form>
+
+  <h3>Listado de Productos</h3>
+  <ul id="lista-productos"></ul>
+</body>
+</html>

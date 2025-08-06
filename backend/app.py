@@ -11,6 +11,13 @@ CORS(app, supports_credentials=True)
 
 db = SQLAlchemy(app)
 
+class Producto(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    nombre = db.Column(db.String(100), nullable=False)
+    precio = db.Column(db.Float, nullable=False)
+    cantidad = db.Column(db.Integer, nullable=False)
+
+
 # Modelo Usuario
 class Usuario(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -62,6 +69,50 @@ def protegido():
 def logout():
     session.pop('usuario', None)
     return jsonify({'mensaje': 'Sesión cerrada.'})
+
+# ===========================
+# CRUD PRODUCTOS
+# ===========================
+
+@app.route('/api/productos', methods=['GET'])
+def obtener_productos():
+    productos = Producto.query.all()
+    resultado = [
+        {"id": p.id, "nombre": p.nombre, "precio": p.precio, "cantidad": p.cantidad}
+        for p in productos
+    ]
+    return jsonify(resultado)
+
+@app.route('/api/productos', methods=['POST'])
+def agregar_producto():
+    data = request.json
+    nuevo = Producto(
+        nombre=data['nombre'],
+        precio=data['precio'],
+        cantidad=data['cantidad']
+    )
+    db.session.add(nuevo)
+    db.session.commit()
+    return jsonify({"mensaje": "Producto agregado correctamente."}), 201
+
+@app.route('/api/productos/<int:id>', methods=['PUT'])
+def editar_producto(id):
+    producto = Producto.query.get_or_404(id)
+    data = request.json
+    producto.nombre = data['nombre']
+    producto.precio = data['precio']
+    producto.cantidad = data['cantidad']
+    db.session.commit()
+    return jsonify({"mensaje": "Producto actualizado correctamente."})
+
+@app.route('/api/productos/<int:id>', methods=['DELETE'])
+def eliminar_producto(id):
+    producto = Producto.query.get_or_404(id)
+    db.session.delete(producto)
+    db.session.commit()
+    return jsonify({"mensaje": "Producto eliminado correctamente."})
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
