@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Gestión de Clientes</title>
+  <script defer src="{{ url_for('static', filename='clientes.js') }}"></script>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    form { margin-bottom: 20px; }
+    input { margin: 5px; }
+    button { margin-left: 5px; }
+    ul { list-style: none; padding: 0; }
+    #volver {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 8px 14px;
+      background-color: #1565c0;
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+    }
+    #volver:hover { background-color: #0d47a1; }
+  </style>
+</head>
+<body>
+  <h2>Gestión de Clientes</h2>
+  <form id="form-cliente">
+    <input type="hidden" id="cliente-id">
+    <input type="text" id="nombre" placeholder="Nombre completo" required>
+    <input type="email" id="correo" placeholder="Correo electrónico" required>
+    <input type="text" id="telefono" placeholder="Teléfono" required>
+    <button type="submit">Guardar</button>
+  </form>
+  <h3>Listado de Clientes</h3>
+  <ul id="lista-clientes"></ul>
+
+  <a id="volver" href="{{ url_for('vista_dashboard') }}">Volver al menú principal</a>
+</body>
+</html>

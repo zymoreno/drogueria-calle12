@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Gestión de Ventas</title>
+  <script defer src="{{ url_for('static', filename='ventas.js') }}"></script>
+
+</head>
+<body>
+  <h2>Gestión de Ventas</h2>
+  <form id="form-venta">
+    <input type="hidden" id="venta-id">
+    <input type="text" id="producto" placeholder="Nombre del producto" required>
+    <input type="number" id="cantidad" placeholder="Cantidad" required>
+    <input type="number" id="total" placeholder="Total" step="0.01" required>
+    <button type="submit">Guardar</button>
+  </form>
+  <h3>Lista de Ventas</h3>
+  <ul id="lista-ventas"></ul>
+
+  <a id="volver" href="{{ url_for('vista_dashboard') }}">Volver al menú principal</a>
+</body>
+</html>

@@ -50,7 +50,8 @@
 <body>
   <div class="login-card">
     
-    <img src="logo/drogueria.png" class="logo-img" alt="logo">
+    <img src="{{ url_for('static', filename='logo/drogueria.png') }}" class="logo-img" alt="logo">
+
     <div class="login-header">Droguería Calle 12</div>
     <ion-item>
       <ion-icon name="mail" slot="start"></ion-icon>
@@ -66,7 +67,8 @@
   </div>
   <!-- Registro oculto -->
   <div class="login-card" id="registro-card" style="display:none;">
-    <img src="logo/drogueria.png" class="logo-img" alt="logo">
+    <img src="{{ url_for('static', filename='logo/drogueria.png') }}"> 
+
     <div class="login-header">Registro</div>
     <ion-item>
       <ion-icon name="mail" slot="start"></ion-icon>
@@ -118,7 +120,7 @@
         if(r.ok) {
           limpiarCampos('login');
           mostrarMensaje('', 'mensaje');
-          window.location.href = "dashboard.html"; // Redirige al dashboard
+          window.location.href = "/dashboard"; 
         } else {
           mostrarMensaje(data.mensaje, 'mensaje');
         }

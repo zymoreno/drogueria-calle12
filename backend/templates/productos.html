@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Gestión de Productos</title>
-  <script defer src="js/productos.js"></script>
+  <script defer src="{{ url_for('static', filename='productos.js') }}"></script>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -26,11 +26,24 @@
       list-style: none;
       padding: 0;
     }
+
+    #volver {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 8px 14px;
+      background-color: #1565c0;
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+    }
+
+    #volver:hover {
+      background-color: #0d47a1;
+    }
   </style>
 </head>
 <body>
   <h2>Gestión de Productos</h2>
-
   <form id="form-producto">
     <input type="hidden" id="producto-id">
     <input type="text" id="nombre" placeholder="Nombre del producto" required>
@@ -38,8 +51,10 @@
     <input type="number" id="cantidad" placeholder="Cantidad" required>
     <button type="submit">Guardar</button>
   </form>
-
   <h3>Listado de Productos</h3>
   <ul id="lista-productos"></ul>
+
+  <a id="volver" href="{{ url_for('vista_dashboard') }}">Volver al menú principal</a>
+
 </body>
 </html>

@@ -34,18 +34,19 @@
   
   <div class="sidebar d-flex flex-column">
     <div class="logo-container">
-      <img src="logo/drogueria.png" class="logo-img" alt="Logo Droguería Calle 12">
-      <div class="system-name">Droguería Calle 12</div>
-    </div>
-    <nav class="nav flex-column">
-      <a class="nav-link active" href="#"><i class="bi bi-house-door"></i> Dashboard</a>
-      <a class="nav-link" href="dashboard.html"><i class="bi bi-house-door"></i> Dashboard</a>
-      <a class="nav-link" href="productos.html"><i class="bi bi-box-seam"></i> Productos</a>
-      <a class="nav-link" href="clientes.html"><i class="bi bi-people"></i> Clientes</a>
-      <a class="nav-link" href="ventas.html"><i class="bi bi-clipboard-data"></i> Ventas</a>
-      <a class="nav-link" href="usuarios.html"><i class="bi bi-person-gear"></i> Usuarios</a>
-      <a class="nav-link" href="#" onclick="logout()"><i class="bi bi-door-closed"></i> Salir</a>
-      </nav>
+  <img src="{{ url_for('static', filename='logo/drogueria.png') }}" class="logo-img" alt="logo">
+  <div class="system-name">Droguería Calle 12</div>
+</div>
+<nav class="nav flex-column">
+  <a class="nav-link active" href="/dashboard"><i class="bi bi-house-door"></i> Dashboard</a>
+  <a class="nav-link" href="/productos"><i class="bi bi-box-seam"></i> Productos</a>
+  <a class="nav-link" href="/clientes"><i class="bi bi-people"></i> Clientes</a>
+  <a class="nav-link" href="/ventas"><i class="bi bi-clipboard-data"></i> Ventas</a>
+  <a class="nav-link" href="/usuarios"><i class="bi bi-person-gear"></i> Usuarios</a>
+  <a href="#" onclick="cerrarSesion()" style="color: inherit; text-decoration: none;">
+  <i class="bi bi-box-arrow-left"></i> Salir
+</a>
+</nav>
   </div>
   
   <div class="main-content">
@@ -59,10 +60,21 @@
     
   </div>
   <script>
-    function logout() {
-      fetch('http://127.0.0.1:5000/logout', { method: 'POST', credentials: 'include'})
-        .then(()=>window.location.href="login.html");
-    }
-  </script>
+function cerrarSesion() {
+  fetch('http://127.0.0.1:5000/logout', {
+    method: 'POST',
+    credentials: 'include'
+  })
+  .then(res => res.json())
+  .then(data => {
+    console.log(data.mensaje);  // Mensaje de cierre
+    window.location.href = '/'; // Redirige al login
+  })
+  .catch(err => {
+    alert("Error al cerrar sesión");
+  });
+}
+</script>
+
 </body>
 </html>
